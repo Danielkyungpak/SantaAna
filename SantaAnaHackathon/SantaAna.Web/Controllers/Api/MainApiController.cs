@@ -43,6 +43,17 @@ namespace SantaAna.Web.api.Controllers
 
             return Request.CreateResponse(response);
         }
+
+        [Route("{id}"), HttpGet]
+        public HttpResponseMessage ServiceGetById(int id)
+        {
+            ItemResponse<ServiceModel> response = new ItemResponse<ServiceModel>();
+
+            response.item = MainService.ServiceSelectById(id);
+
+            return Request.CreateResponse(response);
+        }
+
         [Route(""), HttpGet]
         public HttpResponseMessage ServiceGetAll()
         {
