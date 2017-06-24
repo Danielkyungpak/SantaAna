@@ -33,7 +33,7 @@ namespace SantaAna.Web.Services
                     sqlConn.Open();
                     cmd.ExecuteNonQuery();
 
-                    id = (int)cmd.Parameters["@Id"].Value;
+                    id = (int)cmd.Parameters["@ID"].Value;
 
                 }
 

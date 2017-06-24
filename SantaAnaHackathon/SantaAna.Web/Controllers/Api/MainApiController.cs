@@ -1,5 +1,6 @@
 ﻿using C30_PersonalProject.Web.Models.Responses;
 using SantaAna.Web.Models.Domain;
+using SantaAna.Web.Models.Requests;
 using SantaAna.Web.Services;
 using System;
 using System.Collections.Generic;
@@ -19,15 +20,23 @@ namespace SantaAna.Web.Controllers
         {
             SuccessResponse response = new SuccessResponse();
 
+            // Instantiate MainPayload
+            MainUpdatedAddRequest mainPayload = new MainUpdatedAddRequest();
+
             // Insert Contact Here, Return ContactId
-            int contactId = ContactService.ContactInsert(payload.ContactInfo);
+            mainPayload.contactId = ContactService.ContactInsert(payload.ContactInfo);
 
             // Insert Address Here, Return AddressId
-            int addressId = AddressService.AddressInsert(payload.AddressInfo);
+            mainPayload.addressId = AddressService.AddressInsert(payload.AddressInfo);
 
             // Insert Hours Here, Return HoursId
+            mainPayload.hoursId = OperationTimeService.OperationTimeInsert(payload.OperationTime);
+
+            // Insert Tags Here
+            mainPayload.Tags = payload.Tags;
 
             // Insert Service Here, Return SuccessResponse
+            MainService.MainInsert(mainPayload);
 
             return Request.CreateResponse(response);
         }

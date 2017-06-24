@@ -8,7 +8,6 @@ namespace SantaAna.Web.Models.Domain
 {
     public class MainAddRequest
     {
-        public int ID { get; set; }
 
         public string PostedBy { get; set; }
 
@@ -19,6 +18,9 @@ namespace SantaAna.Web.Models.Domain
         public OperationTimeAddRequest OperationTime { get; set; }
 
         public string Description { get; set; }
+
+        public List<Tag> Tags { get; set; }
+
 
     }
 }
