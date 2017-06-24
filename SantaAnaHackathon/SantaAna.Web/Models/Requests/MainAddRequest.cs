@@ -8,6 +8,7 @@ namespace SantaAna.Web.Models.Domain
 {
     public class MainAddRequest
     {
+        public string Name { get; set; }
 
         public string PostedBy { get; set; }
 

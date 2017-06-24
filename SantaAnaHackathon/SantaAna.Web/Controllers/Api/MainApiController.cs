@@ -15,7 +15,7 @@ namespace SantaAna.Web.Controllers
     [RoutePrefix("api/Main")]
     public class MainApiController : ApiController
     {
-        [Route("")]
+        [Route(""), HttpPost]
         public HttpResponseMessage ServiceInsert(MainAddRequest payload)
         {
             SuccessResponse response = new SuccessResponse();
@@ -40,5 +40,16 @@ namespace SantaAna.Web.Controllers
 
             return Request.CreateResponse(response);
         }
+
+        [Route("{id}"), HttpGet]
+        public HttpResponseMessage ServiceGetById(int id)
+        {
+            ItemResponse<ServiceModel> response = new ItemResponse<ServiceModel>();
+
+            response.item = MainService.ServiceSelectById(id);
+
+            return Request.CreateResponse(response);
+        }
+
     }
 }

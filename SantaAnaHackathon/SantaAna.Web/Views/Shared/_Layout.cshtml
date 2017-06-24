@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
+    <link href="~/Content/ng-tags-input.css" rel="stylesheet" />
+    <link href="~/Content/ng-tags-input.bootstrap.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
@@ -40,6 +42,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/angular")
+    <script src="~/Scripts/ng-tags-input.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>

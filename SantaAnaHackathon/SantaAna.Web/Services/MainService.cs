@@ -1,4 +1,5 @@
-﻿using SantaAna.Web.Models.Requests;
+﻿using SantaAna.Web.Models.Domain;
+using SantaAna.Web.Models.Requests;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,6 +20,7 @@ namespace SantaAna.Web.Services
                 using (SqlCommand cmd = new SqlCommand("Address_Insert", sqlConn))
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Name", payload.Name);
                     cmd.Parameters.AddWithValue("@PostedBy", payload.PostedBy);
                     cmd.Parameters.AddWithValue("@contactId", payload.contactId);
                     cmd.Parameters.AddWithValue("@addressId", payload.addressId);
@@ -56,6 +58,49 @@ namespace SantaAna.Web.Services
                 }
             }
             return id;
+        }
+
+        public static ServiceModel ServiceSelectById(int id)
+        {
+
+            {
+            ServiceModel s = new ServiceModel();
+                string connString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                using (SqlConnection sqlConn = new SqlConnection(connString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("Service_SelectById", sqlConn))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Id", id);
+
+                        sqlConn.Open();
+                        SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                        while (reader.Read())
+                        {
+                            s.PostedBy = reader.GetString(0);
+                            s.description = reader.GetString(1);
+                            s.name = reader.GetString(2);
+                            s.email = reader.GetString(3);
+                            s.phone = reader.GetString(4);
+                            s.website = reader.GetString(5);
+                            s.monday = reader.GetString(6);
+                            s.tuesday = reader.GetString(7);
+                            s.wednesday = reader.GetString(8);
+                            s.thursday = reader.GetString(9);
+                            s.friday = reader.GetString(10);
+                            s.saturday = reader.GetString(11);
+                            s.sunday = reader.GetString(12);
+                            s.addressline1 = reader.GetString(13);
+                            s.addressline2 = reader.GetString(14);
+                            s.city = reader.GetString(15);
+                            s.state = reader.GetString(16);
+                            s.zip = reader.GetString(17);
+                        }
+                    }
+
+                }
+                return s;
+            }
         }
     }
 }

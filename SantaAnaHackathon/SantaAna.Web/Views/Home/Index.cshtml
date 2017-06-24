@@ -9,8 +9,12 @@
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <br />
-            <input type="text" style="width: 100%" class="form-control" placeholder="What would you like to do?" />
-            <button class="btn btn-success">Search</button> 
+            <label for="jobSkillTags">Insert Tags</label>
+            <tags-input ng-model="serv.currentTags" display-property="name" add-from-autocomplete-only="true" @*on-tag-adding="wizCon.tagCheck($tag)" min-length="2"*@>
+                <auto-complete source="serv.currentTagsFilter($query)"></auto-complete>
+            </tags-input>
+            {{serv.currentTags}}
+            <button class="btn btn-success">Search</button>
         </div>
         <div class="col-md-2"></div>
     </div>
@@ -36,6 +40,7 @@
 @section scripts {
     <script type="text/javascript">
 
+        // Factory
         (function () {
             "use strict";
 
@@ -47,8 +52,8 @@
             function ServiceService($http) {
                 return {
                     getServices: _getServices,
+                    getTags: _getTags
                 }
-            }
 
             function _getServices() {
                 var settings = {
@@ -60,6 +65,7 @@
             }
         })
 
+        // Controller
         (function () {
             "use strict";
 
@@ -72,20 +78,32 @@
 
                 var vm = this;
 
+                // All Tags that are populated on startup.
+                vm.allTags = [{ name: "tag1" }, { name: "tag2" }, { name: "tag3" }];
+                vm.currentTags = [];
+
                 vm.$scope = $scope;
                 vm.$serviceService = $serviceService;
+                vm.currentTagsFilter = _currentTagsFilter;
 
                 render();
-            }
+
 
             function render() {
                 vm.$serviceService.getServices();
             }
 
+                // Autocomplete function tags
+                function _currentTagsFilter($query) {
+                    var tags = vm.allTags;
 
-
+                    return tags.filter(function (tag) {
+                        return tag.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
+                    })
+                }
+            }
         })();
 
     </script>
-    }
+}
 
