@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace SantaAna.Web.Controllers
 {
-    [Route("home")]
+    [RoutePrefix("home")]
     public class HomeController : Controller
     {
         [Route("index")]

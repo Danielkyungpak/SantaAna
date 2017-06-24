@@ -8,6 +8,8 @@ namespace SantaAna.Web.Models.Requests
 {
     public class MainUpdatedAddRequest
     {
+        public string Name { get; set; }
+
         public string PostedBy { get; set; }
 
         public int contactId { get; set; }

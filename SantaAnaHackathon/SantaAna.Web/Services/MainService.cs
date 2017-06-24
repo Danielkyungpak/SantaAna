@@ -19,6 +19,7 @@ namespace SantaAna.Web.Services
                 using (SqlCommand cmd = new SqlCommand("Address_Insert", sqlConn))
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Name", payload.Name);
                     cmd.Parameters.AddWithValue("@PostedBy", payload.PostedBy);
                     cmd.Parameters.AddWithValue("@contactId", payload.contactId);
                     cmd.Parameters.AddWithValue("@addressId", payload.addressId);

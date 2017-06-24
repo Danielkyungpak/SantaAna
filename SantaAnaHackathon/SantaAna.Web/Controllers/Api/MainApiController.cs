@@ -15,7 +15,7 @@ namespace SantaAna.Web.Controllers
     [RoutePrefix("api/Main")]
     public class MainApiController : ApiController
     {
-        [Route("")]
+        [Route(""), HttpPost]
         public HttpResponseMessage ServiceInsert(MainAddRequest payload)
         {
             SuccessResponse response = new SuccessResponse();
