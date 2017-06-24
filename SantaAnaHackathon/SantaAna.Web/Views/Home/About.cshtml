@@ -2,18 +2,146 @@
     ViewBag.Title = "About";
 }
 
-<div class="container">
+<div class="container" ng-controller="aboutController as about">
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <h1>Name of Service</h1>
-            <h3>address</h3>
-
-            <h3>Contact Information:</h3>
-            <h4>phone#</h4>
-            <h4>email</h4>
-            <h4>website</h4>
+            <p>
+                Name of Service: {{about.ServiceData.name}}
+            </p>
+            <p>
+                address line 1: {{about.ServiceData.addressline1}}
+            </p>
+            <p>
+                Address Line 2: {{about.ServiceData.addressline2}}
+            </p>
+            <p>
+                City: {{about.ServiceData.city}}
+            </p>
+            <p>
+                State :{{about.ServiceData.state}}
+            </p>
+            <p>
+                Zip :{{about.ServiceData.zip}}
+            </p>
+            <p>Hours:</p>
+            <p>
+                Mon :{{about.ServiceData.monday}}
+            </p>
+            <p>
+                Tues :{{about.ServiceData.tuesday}}
+            </p>
+            <p>
+                Wed :{{about.ServiceData.wednesday}}
+            </p>
+            <p>
+                Th :{{about.ServiceData.thursday}}
+            </p>
+            <p>
+                Fri : {{about.ServiceData.friday}}
+            </p>
+            <p>
+                Sat: {{about.ServiceData.saturday}}
+            </p>
+            <p>
+                Sun: {{about.ServiceData.sunday}}
+            </p>
+            <p>
+                email: {{about.ServiceData.email}}
+            </p>
+            <p>
+                phone#: {{about.ServiceData.phone}}
+            </p>
+            <p>
+                website: {{about.ServiceData.website}}
+            </p>
         </div>
         <div class="col-md-2"></div>
     </div><!-- row -->
 </div><!-- container -->
+
+@section scripts{
+    <script type="text/javascript">
+
+        // Factory
+        (function () {
+            angular.module("myApp")
+                .factory("$aboutService", AboutServiceFactory)
+
+            AboutServiceFactory.$inject = ["$http"];
+
+            function AboutServiceFactory($http) {
+                return {
+                    getServiceById: _getServiceById
+                }
+
+                function _getServiceById(id) {
+                    var settings = {
+                        async: true,
+                        crossDomain: true,
+                        url: "http://localhost:60358/api/main/" + id,
+                        method: "GET",
+                    }
+                    return $http(settings)
+                        .then(getServiceByIdSuccess);
+
+                }
+                function getServiceByIdSuccess(data) {
+                    console.log("GetServiceById Success")
+                    return data;
+                }
+            }
+        })();
+
+
+        // Controller
+        (function () {
+
+            angular.module("myApp")
+                .controller("aboutController", AboutController);
+
+            AboutController.$inject = ["$scope", "$aboutService"]
+
+
+            function AboutController($scope, $aboutService) {
+
+                var vm = this;
+                vm.$scope = $scope;
+                vm.$aboutService = $aboutService;
+                vm.getServiceById = _getServiceById;
+                vm.ServiceData;
+
+                render();
+
+                function render() {
+                    // Get Service By Id
+                    vm.getServiceById();
+                }
+
+                function _getServiceById() {
+                    //return $aboutService.getServiceById()
+                    //    .then(getServiceByIdSuccess);
+                    var id = 1;
+
+                    // Get Service by ID
+                    return $aboutService.getServiceById(id)
+                        .then(getServiceByIdSuccess);
+                    // Hydrate all vm's
+                }
+
+                function getServiceByIdSuccess(response) {
+                    console.log("Get Service Success")
+                    console.log(response);
+
+                    vm.ServiceData = response.data.item;
+                }
+            }
+
+
+
+        })();
+
+
+    </script>
+
+}
