@@ -15,7 +15,7 @@ namespace SantaAna.Web.Services
             string connString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             using (SqlConnection sqlConn = new SqlConnection(connString))
             {
-                using (SqlCommand cmd = new SqlCommand("Address_Insert", sqlConn))
+                using (SqlCommand cmd = new SqlCommand("OperationTime_Insert", sqlConn))
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Monday", payload.Monday);
