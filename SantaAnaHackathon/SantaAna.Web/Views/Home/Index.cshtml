@@ -54,7 +54,7 @@
                 var settings = {
                     async: true,
                     crossDomain: true,
-                    url: "",
+                    url: "http://localhost:60358/api/main",
                     method: "GET",
                 }
             }
@@ -79,8 +79,10 @@
             }
 
             function render() {
-                vm.$serviceService.
+                vm.$serviceService.getServices();
             }
+
+
 
         })();
 

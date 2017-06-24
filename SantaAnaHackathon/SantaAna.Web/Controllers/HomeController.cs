@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace SantaAna.Web.Controllers
 {
-    [Route("home")]
+    [RoutePrefix("home")]
     public class HomeController : Controller
     {
         [Route("index")]
@@ -27,6 +27,11 @@ namespace SantaAna.Web.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult Manage()
+        {
             return View();
         }
     }
