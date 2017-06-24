@@ -1,4 +1,5 @@
-﻿using SantaAna.Web.Models.Requests;
+﻿using SantaAna.Web.Models.Domain;
+using SantaAna.Web.Models.Requests;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,9 +17,10 @@ namespace SantaAna.Web.Services
             string connString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             using (SqlConnection sqlConn = new SqlConnection(connString))
             {
-                using (SqlCommand cmd = new SqlCommand("Address_Insert", sqlConn))
+                using (SqlCommand cmd = new SqlCommand("Service_Insert", sqlConn))
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Name", payload.Name);
                     cmd.Parameters.AddWithValue("@PostedBy", payload.PostedBy);
                     cmd.Parameters.AddWithValue("@contactId", payload.contactId);
                     cmd.Parameters.AddWithValue("@addressId", payload.addressId);
@@ -56,6 +58,61 @@ namespace SantaAna.Web.Services
                 }
             }
             return id;
+        }
+
+        public static List<Service> GetServiceAll()
+        {
+            List<Service> serviceList = new List<Service>();
+            Dictionary<int, Service> serviceDictionary = new Dictionary<int, Service>();
+            List<Tag> categoryList = new List<Tag>();
+            int set = 0;
+
+            string connString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+            using (SqlConnection sqlConn = new SqlConnection(connString))
+            {
+                using (SqlCommand cmd = new SqlCommand("Service_SelectAll", sqlConn))
+                {
+                    sqlConn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                    while (reader.NextResult())
+                    {
+                        while (reader.Read())
+                        {
+                            Service service = new Service();
+                            switch (set)
+                            {
+                                case 0:
+                                    Service s = new Service();
+
+                                    int startingIndex = 0;
+                                    s.Id = reader.GetInt32(startingIndex++);
+                                    s.Name = reader.GetString(startingIndex);
+                                    s.PostedBy = reader.GetString(startingIndex);
+                                    s.ContactId = reader.GetInt32(startingIndex);
+                                    s.AddressId = reader.GetInt32(startingIndex);
+                                    s.HoursId = reader.GetInt32(startingIndex);
+                                    s.Description = reader.GetString(startingIndex);
+                                    serviceList.Add(s);
+                                    s.Tags = new List<Tag>();
+                                    serviceDictionary.Add(s.Id, s);
+                                    break;
+                                case 1:
+                                    Tag tag = new Tag();
+                                    tag.ID = reader.GetInt32(0);
+                                    tag.Name = reader.GetString(1);
+                                    serviceDictionary[tag.ID].Tags.Add(tag);
+                                    break;
+                            }
+
+                        }
+                        set++;
+                    }
+
+
+                }
+                return serviceList;
+            }
         }
     }
 }

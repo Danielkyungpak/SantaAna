@@ -219,6 +219,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Domain\Contact.cs" />
+    <Compile Include="Models\Domain\Service.cs" />
     <Compile Include="Models\Domain\Tag.cs" />
     <Compile Include="Models\Requests\AddressAddRequest.cs" />
     <Compile Include="Models\Requests\MainAddRequest.cs" />

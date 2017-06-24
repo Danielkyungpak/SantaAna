@@ -10,12 +10,12 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Routing;
 
-namespace SantaAna.Web.Controllers
+namespace SantaAna.Web.api.Controllers
 {
     [RoutePrefix("api/Main")]
     public class MainApiController : ApiController
     {
-        [Route("")]
+        [Route(""), HttpPost]
         public HttpResponseMessage ServiceInsert(MainAddRequest payload)
         {
             SuccessResponse response = new SuccessResponse();
@@ -23,6 +23,9 @@ namespace SantaAna.Web.Controllers
             // Instantiate MainPayload
             MainUpdatedAddRequest mainPayload = new MainUpdatedAddRequest();
 
+            mainPayload.Name = payload.Name;
+            mainPayload.PostedBy = payload.PostedBy;
+            mainPayload.Description = payload.Description;
             // Insert Contact Here, Return ContactId
             mainPayload.contactId = ContactService.ContactInsert(payload.ContactInfo);
 
@@ -40,5 +43,13 @@ namespace SantaAna.Web.Controllers
 
             return Request.CreateResponse(response);
         }
+        [Route(""), HttpGet]
+        public HttpResponseMessage ServiceGetAll()
+        {
+            ItemsResponse<Service> response = new ItemsResponse<Service>();
+            response.Items = MainService.GetServiceAll();
+            return Request.CreateResponse(response);
+        }
+
     }
 }
