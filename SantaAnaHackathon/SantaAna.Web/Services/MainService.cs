@@ -1,4 +1,4 @@
-using SantaAna.Web.Models.Domain;
+﻿using SantaAna.Web.Models.Domain;
 using SantaAna.Web.Models.Requests;
 using System;
 using System.Collections.Generic;
@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Services.Description;
 
 namespace SantaAna.Web.Services
 {
