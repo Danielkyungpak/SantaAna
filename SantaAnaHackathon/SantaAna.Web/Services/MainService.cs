@@ -6,7 +6,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-using System.Web.Services.Description;
 
 namespace SantaAna.Web.Services
 {
