@@ -62,5 +62,13 @@ namespace SantaAna.Web.api.Controllers
             return Request.CreateResponse(response);
         }
 
+        [Route("tags"), HttpGet]
+        public HttpResponseMessage GetAllTags()
+        {
+            ItemsResponse<Tag> response = new ItemsResponse<Tag>();
+            response.Items = MainService.GetTags();
+            return Request.CreateResponse(response);
+        }
+
     }
 }

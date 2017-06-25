@@ -5,135 +5,141 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Create a Service</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" novalidate>
-                        <h4>General Information</h4>
+                    <form class="form-horizontal" name="manageForm" novalidate>
+                        <h4>General Information (Everything is Required Alpha Version)</h4>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="name">Name:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name" placeholder="Enter Name" ng-model="ad.item.name">
+                                <input type="text" class="form-control" id="name" placeholder="Enter Name" ng-model="ad.item.name" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="description">Description:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="description" placeholder="Enter description" ng-model="ad.item.description">
+                                <textarea class="form-control" id="description" row="6" placeholder="Enter description" ng-model="ad.item.description" required></textarea>
                             </div>
                         </div>
                         <hr />
-                        <h4>Contact Information</h4>
+                        <h4>Contact Information(Will be nullable)</h4>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="email">Email:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="email" placeholder="Enter email" ng-model="ad.item.contactInfo.email">
+                                <input type="text" class="form-control" id="email" placeholder="Enter email" ng-model="ad.item.contactInfo.email" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="pwd">Phone Number:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="phone" placeholder="Enter phone" ng-model="ad.item.contactInfo.phone">
+                                <input type="text" class="form-control" id="phone" placeholder="Enter phone" ng-model="ad.item.contactInfo.phone" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="website">Website:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="website" placeholder="Enter website" ng-model="ad.item.contactInfo.website">
+                                <input type="text" class="form-control" id="website" placeholder="Enter website" ng-model="ad.item.contactInfo.website" required>
                             </div>
                         </div>
                         <hr />
-                        <h4>Address Information</h4>
+                        <h4>Address Information (Address Line 2 will be nullable)</h4>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="line1">Line 1:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="line1" placeholder="Enter line 1" ng-model="ad.item.addressInfo.addressline1">
+                                <input type="text" class="form-control" id="line1" placeholder="Enter line 1" ng-model="ad.item.addressInfo.addressline1" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="website">Line 2:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="line2" placeholder="Enter line 2 (optional)" ng-model="ad.item.addressInfo.addressline2">
+                                <input type="text" class="form-control" id="line2" placeholder="Enter line 2" ng-model="ad.item.addressInfo.addressline2" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="website">City:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="city" placeholder="Enter city" ng-model="ad.item.addressInfo.city">
+                                <input type="text" class="form-control" id="city" placeholder="Enter city" ng-model="ad.item.addressInfo.city" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="website">State:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="state" placeholder="Enter state" ng-model="ad.item.addressInfo.state">
+                                <input type="text" class="form-control" id="state" placeholder="Enter state" ng-model="ad.item.addressInfo.state" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="website">Zip:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="zip" placeholder="Enter zip" ng-model="ad.item.addressInfo.zip">
+                                <input type="text" class="form-control" id="zip" placeholder="Enter zip" ng-model="ad.item.addressInfo.zip" required>
                             </div>
                         </div>
                         <hr />
-                        <h4>Hours of Operation</h4>
+                        <h4>Hours of Operation (Will be nullable)</h4>
                         <h5>Monday</h5>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="website">Start:</label>
+                            <label class="control-label col-sm-2" for="website">Hours of Operation</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="zip" placeholder="Enter zip" ng-model="ad.item.operationTime.monday">
+                                <input type="text" class="form-control" id="zip" placeholder="Open to Closing" ng-model="ad.item.operationTime.monday" required>
                             </div>
                         </div>
 
                         <h5>Tuesday</h5>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="website">Hours:</label>
+                            <label class="control-label col-sm-2" for="website">Hours of Operation</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="zip" placeholder="Enter zip" ng-model="ad.item.operationTime.tuesday">
+                                <input type="text" class="form-control" id="zip" placeholder="Open to Closing" ng-model="ad.item.operationTime.tuesday" required>
                             </div>
                         </div>
 
                         <h5>Wednesday</h5>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="website">Hours:</label>
+                            <label class="control-label col-sm-2" for="website">Hours of Operation</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="zip" placeholder="Enter zip" ng-model="ad.item.operationTime.wednesday">
+                                <input type="text" class="form-control" id="zip" placeholder="Open to Closing" ng-model="ad.item.operationTime.wednesday" required>
                             </div>
                         </div>
 
                         <h5>Thursday</h5>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="website">Hours:</label>
+                            <label class="control-label col-sm-2" for="website">Hours of Operation</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="zip" placeholder="Enter zip" ng-model="ad.item.operationTime.thursday">
+                                <input type="text" class="form-control" id="zip" placeholder="Open to Closing" ng-model="ad.item.operationTime.thursday" required>
                             </div>
                         </div>
 
                         <h5>Friday</h5>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="website">Hours:</label>
+                            <label class="control-label col-sm-2" for="website">Hours of Operation</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="zip" placeholder="Enter zip" ng-model="ad.item.operationTime.friday">
+                                <input type="text" class="form-control" id="zip" placeholder="Open to Closing" ng-model="ad.item.operationTime.friday" required>
                             </div>
                         </div>
 
                         <h5>Saturday</h5>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="website">Hours:</label>
+                            <label class="control-label col-sm-2" for="website">Hours of Operation</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="zip" placeholder="Enter zip" ng-model="ad.item.operationTime.saturday">
+                                <input type="text" class="form-control" id="zip" placeholder="Open to Closing" ng-model="ad.item.operationTime.saturday" required>
                             </div>
                         </div>
 
                         <h5>Sunday</h5>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="website">Hours:</label>
+                            <label class="control-label col-sm-2" for="website">Hours of Operation</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="zip" placeholder="Enter zip" ng-model="ad.item.operationTime.sunday">
+                                <input type="text" class="form-control" id="zip" placeholder="Open to Closing" ng-model="ad.item.operationTime.sunday" required>
                             </div>
                         </div>
+                        <hr />
+                        <h4>Search Tags (Please Fill at least 1 Tag out)</h4>
+                        <tags-input ng-model="ad.item.tags" display-property="name">
+                            <auto-complete source="ad.currentTagsFilter($query)" load-on-focus="true"></auto-complete>
+                        </tags-input>
+
 
                         <hr />
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button class="btn btn-default" ng-click="ad.createService(ad.item)">Submit</button>
+                                <button class="btn btn-default" ng-disabled="manageForm.$invalid" ng-click="ad.createService(ad.item)">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -161,7 +167,8 @@
 
             function AdminService($http) {
                 return {
-                    sendService: _sendService
+                    sendService: _sendService,
+                    getTags: _getTags
                 }
 
                 function _sendService(data) {
@@ -171,6 +178,20 @@
 
                 function onSuccessSendService(response) {
                     console.log("success u sent a service");
+                    return response.data;
+                }
+                function _getTags() {
+                    var settings = {
+                        async: true,
+                        crossDomain: true,
+                        url: "http://localhost:60358/api/main/tags",
+                        method: "GET",
+                    }
+                    return $http(settings)
+                        .then(onSuccessGetTags)
+                }
+
+                function onSuccessGetTags(response) {
                     return response.data;
                 }
             }
@@ -188,23 +209,45 @@
                 var vm = this;
 
                 vm.$scope = $scope;
-                vm.item = [];
+                vm.item;
                 
                 vm.$adminService = $adminService;
                 vm.createService = _createService;
+                vm.allTags = [];
+                vm.getAllTags = _getAllTags;
+                vm.hydrateTags = _hydrateTags;
+                vm.currentTagsFilter = _currentTagsFilter;
 
                 render();
 
                 function render() {
-
+                    vm.getAllTags();
                 }
 
                 function _createService() {
                     console.log(vm.item);
-                    vm.item.tags = [{ name: "tag" }];
+                    vm.item.postedBy = "Admin"
                     $adminService.sendService(vm.item)
                 }
+                function _getAllTags() {
+                    return vm.$adminService.getTags()
+                        .then(vm.hydrateTags)
+                }
 
+                function _hydrateTags(data) {
+                    for (var i = 0; i < data.Items.length; i++) {
+                        vm.allTags.push({ name: data.Items[i].Name })
+                    }
+                    console.log(vm.allTags);
+
+                }
+                function _currentTagsFilter($query) {
+                    var tags = vm.allTags;
+
+                    return tags.filter(function (tag) {
+                        return tag.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
+                    })
+                }
             }
 
         })();

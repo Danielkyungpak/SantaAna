@@ -17,7 +17,7 @@ namespace SantaAna.Web.Services
             string connString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             using (SqlConnection sqlConn = new SqlConnection(connString))
             {
-                using (SqlCommand cmd = new SqlCommand("Address_Insert", sqlConn))
+                using (SqlCommand cmd = new SqlCommand("Service_Insert", sqlConn))
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Name", payload.Name);
@@ -117,7 +117,7 @@ namespace SantaAna.Web.Services
                 {
                     sqlConn.Open();
                     SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
-                    while (reader.NextResult())
+                    while (reader.HasRows)
                     {
                         while (reader.Read())
                         {
@@ -126,37 +126,66 @@ namespace SantaAna.Web.Services
                             {
                                 case 0:
                                     Service s = new Service();
-
                                     int startingIndex = 0;
                                     s.Id = reader.GetInt32(startingIndex++);
-                                    s.Name = reader.GetString(startingIndex);
-                                    s.PostedBy = reader.GetString(startingIndex);
-                                    s.ContactId = reader.GetInt32(startingIndex);
-                                    s.AddressId = reader.GetInt32(startingIndex);
-                                    s.HoursId = reader.GetInt32(startingIndex);
-                                    s.Description = reader.GetString(startingIndex);
-                                    serviceList.Add(s);
+                                    s.Name = reader.GetString(startingIndex++);
+                                    s.PostedBy = reader.GetString(startingIndex++);
+                                    s.ContactId = reader.GetInt32(startingIndex++);
+                                    s.AddressId = reader.GetInt32(startingIndex++);
+                                    s.HoursId = reader.GetInt32(startingIndex++);
+                                    s.Description = reader.GetString(startingIndex++);
                                     s.Tags = new List<Tag>();
+                                    serviceList.Add(s);
                                     serviceDictionary.Add(s.Id, s);
                                     break;
                                 case 1:
                                     Tag tag = new Tag();
-                                    tag.ID = reader.GetInt32(0);
-                                    tag.Name = reader.GetString(1);
-                                    serviceDictionary[tag.ID].Tags.Add(tag);
+                                    if (!reader.IsDBNull(1))
+                                    {
+                                        tag.ID = reader.GetInt32(0);
+                                        tag.Name = reader.GetString(1);
+                                        serviceDictionary[tag.ID].Tags.Add(tag);
+                                    }
                                     break;
                             }
-
                         }
+                        reader.NextResult();
                         set++;
                     }
-
 
                 }
                 return serviceList;
             }
         }
+        public static List<Tag> GetTags()
+        {
+            List<Tag> tags = new List<Tag>();
+
+            string connString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+            using (SqlConnection sqlConn = new SqlConnection(connString))
+            {
+                using (SqlCommand cmd = new SqlCommand("Tag_SelectAll", sqlConn))
+                {
+                    sqlConn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                    while (reader.Read())
+                    {
+                        Tag service = new Tag();
+                        {
+                            Tag s = new Tag();
+                            int startingIndex = 0;
+                            s.ID = reader.GetInt32(startingIndex++);
+                            s.Name = reader.GetString(startingIndex++);
+                            tags.Add(s);
+
+                        }
+                    }
+                    return tags;
+                }
+            }
 
 
+        }
     }
 }

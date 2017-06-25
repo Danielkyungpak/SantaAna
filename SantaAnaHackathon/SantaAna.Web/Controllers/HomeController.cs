@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SantaAna.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,20 +14,14 @@ namespace SantaAna.Web.Controllers
             return View();
         }
 
-        public ActionResult About()
+        [Route("about/{id}")]
+        public ActionResult About(int id)
         {
-            ViewBag.Message = "Your application description page.";
+            ItemViewModel<int> model = new ItemViewModel<int>();
+            model.Item = id;
+            return View(model);
 
-            return View();
         }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
         public ActionResult Manage()
         {
             return View();

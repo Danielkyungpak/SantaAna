@@ -222,6 +222,7 @@
     <Compile Include="Models\Domain\ServiceModel.cs" />
     <Compile Include="Models\Domain\Service.cs" />
     <Compile Include="Models\Domain\Tag.cs" />
+    <Compile Include="Models\ItemViewModel.cs" />
     <Compile Include="Models\Requests\AddressAddRequest.cs" />
     <Compile Include="Models\Requests\MainAddRequest.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -1337,6 +1338,7 @@
     <Content Include="Scripts\ng-tags-input.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="ServerScript.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
