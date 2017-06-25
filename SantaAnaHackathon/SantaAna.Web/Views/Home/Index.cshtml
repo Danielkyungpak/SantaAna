@@ -55,26 +55,15 @@
                     getTags: _getTags
                 }
 
-
-                function _getServices() {
-                    var settings = {
-                        async: true,
-                        crossDomain: true,
-                        url: "",
-                        method: "GET",
-                    }
-                }
-
-                function _getTags() {
-                    var settings = {
-                        async: true,
-                        crossDomain: true,
-                        url: "",
-                        method: "GET",
-                    }
+            function _getServices() {
+                var settings = {
+                    async: true,
+                    crossDomain: true,
+                    url: "http://localhost:60358/api/main",
+                    method: "GET",
                 }
             }
-        })();
+        })
 
         // Controller
         (function () {
@@ -100,10 +89,9 @@
                 render();
 
 
-                function render() {
-                    // Get all Tags
-                    // Get all Services
-                }
+            function render() {
+                vm.$serviceService.getServices();
+            }
 
                 // Autocomplete function tags
                 function _currentTagsFilter($query) {

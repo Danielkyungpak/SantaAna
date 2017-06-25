@@ -26,5 +26,10 @@ namespace SantaAna.Web.Controllers
 
             return View();
         }
+
+        public ActionResult Manage()
+        {
+            return View();
+        }
     }
 }
