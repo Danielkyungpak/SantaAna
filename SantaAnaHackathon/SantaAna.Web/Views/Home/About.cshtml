@@ -4,6 +4,7 @@
 
 <div class="container" ng-controller="aboutController as about">
     <div class="row">
+    <input type="hidden" value="@Model.Item" id="modelId"/>
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <p>
@@ -110,7 +111,7 @@
                 vm.$aboutService = $aboutService;
                 vm.getServiceById = _getServiceById;
                 vm.ServiceData;
-
+                vm.id = $("#modelId").val();
                 render();
 
                 function render() {
@@ -121,10 +122,9 @@
                 function _getServiceById() {
                     //return $aboutService.getServiceById()
                     //    .then(getServiceByIdSuccess);
-                    var id = 1;
 
                     // Get Service by ID
-                    return $aboutService.getServiceById(id)
+                    return $aboutService.getServiceById(vm.id)
                         .then(getServiceByIdSuccess);
                     // Hydrate all vm's
                 }

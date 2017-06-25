@@ -3,6 +3,9 @@
 }
 
 <div class="container" ng-controller="serviceController as serv">
+    <h4>Message from the developers: </h4>
+    <p>Hi there, this is our representation of the Youth Services App by by Moises Vazquez. What the current site allows you to do is to first see the <strong>Services</strong> that are posted by local people. The second feature is the actual posting of the <strong>service</strong>. We wanted it to only be limited to be created by a group of admins that would be invited after the product owner verifies that the admin is from a legitimate source. However, we were not able to implement security features and validations in our first iteration. Lastly, the site allows you to search all the events through <em>tags</em> and filter the results to narrow down your results.</p>
+    <p>The site may not be pretty but this application should be very scalable, mobile friendly, deployable and has a fully functioning database that holds real data.</p>
 
     <!-- SEARCH BAR -->
     <div class="row" style="display: inline">
@@ -13,21 +16,20 @@
             <tags-input ng-model="serv.currentTags" display-property="name" add-from-autocomplete-only="true" @*on-tag-adding="wizCon.tagCheck($tag)" min-length="2"*@>
                 <auto-complete source="serv.currentTagsFilter($query)"></auto-complete>
             </tags-input>
-            {{serv.currentTags}}
             <button class="btn btn-success">Search</button>
         </div>
         <div class="col-md-2"></div>
     </div>
 
     <!-- SERVICE LISTINGS -->
-    <div class="row">
+    <div class="row" ng-repeat="item in serv.items">
         <div class="col-md-2"></div>
         <div class="col-md-8">
 
-            <a href="/home/about">
-                <h3>Name of Service</h3>
+            <a href="/about/{{item.Id}}">
+                <h3>{{item.Name}}</h3>
             </a>
-            <p>address of service</p>
+            <p>{{item.Description}}</p>
             <hr />
 
         </div>
@@ -55,15 +57,40 @@
                     getTags: _getTags
                 }
 
-            function _getServices() {
-                var settings = {
-                    async: true,
-                    crossDomain: true,
-                    url: "http://localhost:60358/api/main",
-                    method: "GET",
+                function _getServices() {
+                    var settings = {
+                        async: true,
+                        crossDomain: true,
+                        url: "http://localhost:60358/api/main",
+                        method: "GET",
+                    }
+                    return $http(settings)
+                        .then(onSuccessGetAll)
+                }
+
+                function _getTags() {
+                    var settings = {
+                        async: true,
+                        crossDomain: true,
+                        url: "http://localhost:60358/api/main/tags",
+                        method: "GET",
+                    }
+                    return $http(settings)
+                        .then(onSuccessGetTags)
+                }
+
+
+
+
+                function onSuccessGetAll(response) {
+                    return response.data;
+                }
+
+                function onSuccessGetTags(response) {
+                    return response.data;
                 }
             }
-        })
+        })();
 
         // Controller
         (function () {
@@ -79,19 +106,45 @@
                 var vm = this;
 
                 // All Tags that are populated on startup.
-                vm.allTags = [{ name: "tag1" }, { name: "tag2" }, { name: "tag3" }];
-                vm.currentTags = [];
 
                 vm.$scope = $scope;
                 vm.$serviceService = $serviceService;
                 vm.currentTagsFilter = _currentTagsFilter;
-
+                vm.hydratePage = _hydratePage;
+                vm.getAllEntries = _getAllEntries;
+                vm.getAllTags = _getAllTags;
+                vm.hydrateTags = _hydrateTags;
                 render();
+                vm.allTags = [];
+                vm.items;
 
+                function render() {
+                    vm.getAllEntries();
+                }
+                function _getAllEntries() {
+                    return vm.$serviceService.getServices()
+                        .then(vm.hydratePage)
+                }
 
-            function render() {
-                vm.$serviceService.getServices();
-            }
+                function _hydratePage(data) {
+                    vm.items = data.Items;
+                    console.log(vm.items);
+                    vm.getAllTags();
+                }
+
+                function _getAllTags() {
+                    return vm.$serviceService.getTags()
+                        .then(vm.hydrateTags)
+                }
+
+                function _hydrateTags(data) {
+                    for (var i = 0; i < data.Items.length; i++) {
+                        vm.allTags.push({name: data.Items[i].Name})
+                    }
+                    console.log(vm.allTags);
+
+                }
+
 
                 // Autocomplete function tags
                 function _currentTagsFilter($query) {
@@ -102,6 +155,7 @@
                     })
                 }
             }
+
         })();
 
     </script>
