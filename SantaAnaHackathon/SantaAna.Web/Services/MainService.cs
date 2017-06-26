@@ -102,6 +102,7 @@ namespace SantaAna.Web.Services
                 return s;
             }
         }
+
         public static List<Service> GetServiceAll()
         {
             List<Service> serviceList = new List<Service>();
@@ -157,6 +158,7 @@ namespace SantaAna.Web.Services
                 return serviceList;
             }
         }
+
         public static List<Tag> GetTags()
         {
             List<Tag> tags = new List<Tag>();
@@ -186,6 +188,60 @@ namespace SantaAna.Web.Services
             }
 
 
+        }
+
+        public static List<ServiceFix> GetServiceByTags(List<TagFix> model)
+        {
+            List<ServiceFix> list = new List<ServiceFix>();
+            // 
+            //List<TagFix> t = tags.OfType<TagFix>().ToList();
+
+
+            DataTable tbl = new DataTable();
+            tbl.Columns.Add("tagName");
+            // Add All tag names into tbl
+            for (var i = 0; i < model.Count; i++)
+            {
+                //DataRow row = tbl.NewRow();
+                //row["tagName"] = model[i].name;
+                tbl.Rows.Add(model[i].name);
+            }
+            // At this point DataTable tbl is fully populated with correct tag names.
+            string connString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString();
+
+            using (SqlConnection sqlConn = new SqlConnection(connString))
+            {
+                using (SqlCommand cmd = new SqlCommand("Service_SelectByTags", sqlConn))
+                {
+                    // Pass tbl as a table parameter.
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlParameter tableParam = cmd.Parameters.AddWithValue("@List", tbl);
+                    tableParam.SqlDbType = SqlDbType.Structured;
+
+                    // Open Connection
+                    sqlConn.Open();
+                    // Create reader
+                    SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                    // Execute reader
+                    while (reader.Read())
+                    {
+                        ServiceFix s = new ServiceFix();
+                        int index = 0;
+                        s.Id = reader.GetInt32(index++);
+                        s.Name = reader.GetString(index++);
+                        s.PostedBy = reader.GetString(index++);
+                        s.ContactId = reader.GetInt32(index++);
+                        s.AddressId = reader.GetInt32(index++);
+                        s.HoursId = reader.GetInt32(index++);
+                        s.Description = reader.GetString(index++);
+                        s.Tags = model;
+
+                        list.Add(s);
+                    }
+                }
+            }
+
+            return list;
         }
     }
 }

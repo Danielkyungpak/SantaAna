@@ -70,5 +70,15 @@ namespace SantaAna.Web.api.Controllers
             return Request.CreateResponse(response);
         }
 
+        [Route("ServiceByTag"), HttpPost]
+        public HttpResponseMessage ServiceGetByTag(List<TagFix> tags)
+        {
+            ItemsResponse<ServiceFix> response = new ItemsResponse<ServiceFix>();
+
+            // Main service to get Service By tags
+            response.Items = MainService.GetServiceByTags(tags);
+
+            return Request.CreateResponse(response);
+        }
     }
 }

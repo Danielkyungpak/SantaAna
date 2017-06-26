@@ -13,10 +13,11 @@
         <div class="col-md-8">
             <br />
             <label for="jobSkillTags">Insert Tags</label>
-            <tags-input ng-model="serv.currentTags" display-property="name" add-from-autocomplete-only="true" @*on-tag-adding="wizCon.tagCheck($tag)" min-length="2"*@>
+            <tags-input ng-model="serv.currentTags" display-property="name" add-from-autocomplete-only="true">
                 <auto-complete source="serv.currentTagsFilter($query)"></auto-complete>
             </tags-input>
-            <button class="btn btn-success">Search</button>
+            {{serv.currentTags}}
+            <button class="btn btn-success" ng-click="serv.tagCheck()">Search</button>
         </div>
         <div class="col-md-2"></div>
     </div>
@@ -54,7 +55,8 @@
             function ServiceService($http) {
                 return {
                     getServices: _getServices,
-                    getTags: _getTags
+                    getTags: _getTags,
+                    getServiceByTag: _getServiceByTag
                 }
 
                 function _getServices() {
@@ -79,7 +81,17 @@
                         .then(onSuccessGetTags)
                 }
 
-
+                function _getServiceByTag(data) {
+                    var settings = {
+                        async: true,
+                        crossDomain: true,
+                        url: "http://localhost:60358/api/main/ServiceByTag",
+                        method: "POST",
+                        data: data
+                    }
+                    return $http(settings)
+                        .then(onGetServiceByTagsSuccess);
+                }
 
 
                 function onSuccessGetAll(response) {
@@ -87,6 +99,9 @@
                 }
 
                 function onSuccessGetTags(response) {
+                    return response.data;
+                }
+                function onGetServiceByTagsSuccess(response) {
                     return response.data;
                 }
             }
@@ -114,9 +129,11 @@
                 vm.getAllEntries = _getAllEntries;
                 vm.getAllTags = _getAllTags;
                 vm.hydrateTags = _hydrateTags;
-                render();
+                vm.onServiceGetByTagsSuccess = _onServiceGetByTagsSuccess;
+                vm.tagCheck = _tagCheck;
                 vm.allTags = [];
                 vm.items;
+                render();
 
                 function render() {
                     vm.getAllEntries();
@@ -128,8 +145,8 @@
 
                 function _hydratePage(data) {
                     vm.items = data.Items;
-                    console.log(vm.items);
                     vm.getAllTags();
+                    console.log(vm.items)
                 }
 
                 function _getAllTags() {
@@ -139,12 +156,18 @@
 
                 function _hydrateTags(data) {
                     for (var i = 0; i < data.Items.length; i++) {
-                        vm.allTags.push({name: data.Items[i].Name})
+                        vm.allTags.push({ name: data.Items[i].Name })
                     }
-                    console.log(vm.allTags);
+
 
                 }
 
+                function _tagCheck() {
+                    // Run Get Call, sending in  tags.
+                    console.log(vm.currentTags);
+                    $serviceService.getServiceByTag(vm.currentTags)
+                        .then(vm.onServiceGetByTagsSuccess);
+                }
 
                 // Autocomplete function tags
                 function _currentTagsFilter($query) {
@@ -153,6 +176,11 @@
                     return tags.filter(function (tag) {
                         return tag.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
                     })
+                }
+
+                function _onServiceGetByTagsSuccess(response) {
+                    vm.items = response.Items;
+                    console.log(vm.items);
                 }
             }
 
