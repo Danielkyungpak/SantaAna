@@ -219,9 +219,11 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Domain\Contact.cs" />
+    <Compile Include="Models\Domain\ServiceFix.cs" />
     <Compile Include="Models\Domain\ServiceModel.cs" />
     <Compile Include="Models\Domain\Service.cs" />
     <Compile Include="Models\Domain\Tag.cs" />
+    <Compile Include="Models\Domain\TagFix.cs" />
     <Compile Include="Models\ItemViewModel.cs" />
     <Compile Include="Models\Requests\AddressAddRequest.cs" />
     <Compile Include="Models\Requests\MainAddRequest.cs" />
@@ -230,6 +232,7 @@
     <Compile Include="Models\Requests\ContactAddRequest.cs" />
     <Compile Include="Models\Requests\MainUpdatedAddRequest.cs" />
     <Compile Include="Models\Requests\OperationTimeAddRequest.cs" />
+    <Compile Include="Models\Requests\ServiceByTagsRequest.cs" />
     <Compile Include="Models\Responses\BaseResponse.cs" />
     <Compile Include="Models\Responses\ItemResponse.cs" />
     <Compile Include="Models\Responses\ItemsResponse.cs" />
