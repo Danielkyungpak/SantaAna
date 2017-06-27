@@ -58,24 +58,12 @@
                 }
 
                 function _getServices() {
-                    var settings = {
-                        async: true,
-                        crossDomain: true,
-                        url: "http://localhost:60358/api/main",
-                        method: "GET",
-                    }
-                    return $http(settings)
+                    return $http.get('/api/main/')
                         .then(onSuccessGetAll)
                 }
 
                 function _getTags() {
-                    var settings = {
-                        async: true,
-                        crossDomain: true,
-                        url: "http://localhost:60358/api/main/tags",
-                        method: "GET",
-                    }
-                    return $http(settings)
+                    return $http.get('/api/main/tags')
                         .then(onSuccessGetTags)
                 }
 
