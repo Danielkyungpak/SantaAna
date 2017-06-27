@@ -72,10 +72,10 @@
                             </div>
                         </div>
                         <hr />
-                        <h4>Hours of Operation (Will be nullable)</h4>
+                        <h4>Hours of Operation(Will be nullable)</h4>
                         <h5>Monday</h5>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="website">Hours of Operation</label>
+                            <label class="control-label col-sm-2" for="website">Hours:</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="zip" placeholder="Open to Closing" ng-model="ad.item.operationTime.monday" required>
                             </div>
@@ -83,7 +83,7 @@
 
                         <h5>Tuesday</h5>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="website">Hours of Operation</label>
+                            <label class="control-label col-sm-2" for="website">Hours:</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="zip" placeholder="Open to Closing" ng-model="ad.item.operationTime.tuesday" required>
                             </div>
@@ -91,7 +91,7 @@
 
                         <h5>Wednesday</h5>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="website">Hours of Operation</label>
+                            <label class="control-label col-sm-2" for="website">Hours:</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="zip" placeholder="Open to Closing" ng-model="ad.item.operationTime.wednesday" required>
                             </div>
@@ -99,7 +99,7 @@
 
                         <h5>Thursday</h5>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="website">Hours of Operation</label>
+                            <label class="control-label col-sm-2" for="website">Hours:</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="zip" placeholder="Open to Closing" ng-model="ad.item.operationTime.thursday" required>
                             </div>
@@ -107,7 +107,7 @@
 
                         <h5>Friday</h5>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="website">Hours of Operation</label>
+                            <label class="control-label col-sm-2" for="website">Hours:</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="zip" placeholder="Open to Closing" ng-model="ad.item.operationTime.friday" required>
                             </div>
@@ -115,7 +115,7 @@
 
                         <h5>Saturday</h5>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="website">Hours of Operation</label>
+                            <label class="control-label col-sm-2" for="website">Hours:</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="zip" placeholder="Open to Closing" ng-model="ad.item.operationTime.saturday" required>
                             </div>
@@ -123,7 +123,7 @@
 
                         <h5>Sunday</h5>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="website">Hours of Operation</label>
+                            <label class="control-label col-sm-2" for="website">Hours:</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="zip" placeholder="Open to Closing" ng-model="ad.item.operationTime.sunday" required>
                             </div>
@@ -131,14 +131,15 @@
                         <hr />
                         <h4>Search Tags (Please Fill at least 1 Tag out)</h4>
                         <tags-input ng-model="ad.item.tags" display-property="name">
-                            <auto-complete source="ad.currentTagsFilter($query)" load-on-focus="true"></auto-complete>
+                            <auto-complete source="ad.currentTagsFilter($query)" load-on-focus="true" load-on-empty="true"></auto-complete>
                         </tags-input>
+
 
 
                         <hr />
 
                         <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
+                            <div class="col-sm-10">
                                 <button class="btn btn-default" ng-disabled="manageForm.$invalid" ng-click="ad.createService(ad.item)">Submit</button>
                             </div>
                         </div>
@@ -204,7 +205,7 @@
                 var vm = this;
 
                 vm.$scope = $scope;
-                vm.item;
+                vm.item = {};
                 
                 vm.$adminService = $adminService;
                 vm.createService = _createService;
@@ -212,7 +213,8 @@
                 vm.getAllTags = _getAllTags;
                 vm.hydrateTags = _hydrateTags;
                 vm.currentTagsFilter = _currentTagsFilter;
-
+                vm.redirect = _redirect;
+                vm.item.tags = [];
                 render();
 
                 function render() {
@@ -222,8 +224,18 @@
                 function _createService() {
                     console.log(vm.item);
                     vm.item.postedBy = "Admin"
+                    if (vm.item.tags.length < 1) {
+                        alert("Please fill one tag out");
+                        return;
+                    }
                     $adminService.sendService(vm.item)
+                        .then(vm.redirect);
                 }
+
+                function _redirect() {
+                    self.location = "/Home/Index";
+                }
+
                 function _getAllTags() {
                     return vm.$adminService.getTags()
                         .then(vm.hydrateTags)

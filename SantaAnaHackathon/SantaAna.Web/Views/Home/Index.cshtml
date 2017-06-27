@@ -1,23 +1,37 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<style>
+    .tag {
+        background-color: #857977;
+        border: none;
+        color: white;
+        padding: 7px 7px;
+        border-radius: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 13px;
+        margin: 3px;
+    }
+</style>
 
 <div class="container" ng-controller="serviceController as serv">
     <h4>Message from the developers: </h4>
     <p>Hi there, this is our representation of the Youth Services App by by Moises Vazquez. What the current site allows you to do is to first see the <strong>Services</strong> that are posted by local people. The second feature is the actual posting of the <strong>service</strong>. We wanted it to only be limited to be created by a group of admins that would be invited after the product owner verifies that the admin is from a legitimate source. However, we were not able to implement security features and validations in our first iteration. Lastly, the site allows you to search all the events through <em>tags</em> and filter the results to narrow down your results.</p>
     <p>The site may not be pretty but this application should be very scalable, mobile friendly, deployable and has a fully functioning database that holds real data.</p>
+    <p>For your first test, why don't you try having Club and Kids as Tags, it should limit the amount of results.</p>
+    <p>The manage tab will allow you to post your very own listing for the website. If you choose to create one, please fill out <strong>ALL</strong> the fields. Thank you!</p>
 
     <!-- SEARCH BAR -->
     <div class="row" style="display: inline">
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <br />
-            <label for="jobSkillTags">Insert Tags</label>
-            <tags-input ng-model="serv.currentTags" display-property="name" add-from-autocomplete-only="true">
-                <auto-complete source="serv.currentTagsFilter($query)"></auto-complete>
+            <label for="jobSkillTags">Search By Tag(s)</label>
+            <tags-input ng-model="serv.currentTags" display-property="name" add-from-autocomplete-only="true" on-tag-added="serv.tagCheck()" on-tag-removed="serv.tagCheck()">
+                <auto-complete source="serv.currentTagsFilter($query)" load-on-focus="true" load-on-empty="true"></auto-complete>
             </tags-input>
-            {{serv.currentTags}}
-            <button class="btn btn-success" ng-click="serv.tagCheck()">Search</button>
         </div>
         <div class="col-md-2"></div>
     </div>
@@ -31,6 +45,11 @@
                 <h3>{{item.Name}}</h3>
             </a>
             <p>{{item.Description}}</p>
+            <ul class="list-inline" style="list-style:none">
+                <li ng-repeat="tag in item.Tags">
+                    <p class="tag" ng-bind="tag.Name || tag.name"></p>
+                </li>
+            </ul>
             <hr />
 
         </div>
@@ -70,14 +89,7 @@
                 }
 
                 function _getServiceByTag(data) {
-                    var settings = {
-                        async: true,
-                        crossDomain: true,
-                        url: "http://localhost:60358/api/main/ServiceByTag",
-                        method: "POST",
-                        data: data
-                    }
-                    return $http(settings)
+                    return $http.post('/api/main/ServiceByTag', data)
                         .then(onGetServiceByTagsSuccess);
                 }
 
@@ -121,10 +133,13 @@
                 vm.tagCheck = _tagCheck;
                 vm.allTags = [];
                 vm.items;
+                vm.currentTags = [];
                 render();
 
                 function render() {
                     vm.getAllEntries();
+                    vm.getAllTags();
+
                 }
                 function _getAllEntries() {
                     return vm.$serviceService.getServices()
@@ -133,8 +148,7 @@
 
                 function _hydratePage(data) {
                     vm.items = data.Items;
-                    vm.getAllTags();
-                    console.log(vm.items)
+                    console.log(vm.items);
                 }
 
                 function _getAllTags() {
@@ -146,6 +160,7 @@
                     for (var i = 0; i < data.Items.length; i++) {
                         vm.allTags.push({ name: data.Items[i].Name })
                     }
+                    console.log(vm.allTags);
 
 
                 }
@@ -153,6 +168,11 @@
                 function _tagCheck() {
                     // Run Get Call, sending in  tags.
                     console.log(vm.currentTags);
+
+                    if (vm.currentTags.length < 1) {
+                        return vm.$serviceService.getServices()
+                            .then(vm.hydratePage)
+                    }
                     $serviceService.getServiceByTag(vm.currentTags)
                         .then(vm.onServiceGetByTagsSuccess);
                 }
